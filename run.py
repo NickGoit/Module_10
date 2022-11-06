@@ -16,15 +16,15 @@ class Phone(Field):
 
 class Record:
 
-    def __init__(self, name_in, *args):
+    def __init__(self, name_in, phone: str = None):
         self.name = Name(name_in)
-        self.phones = Phone(list(args)).value if args else []
+        self.phones = [phone if phone else []]
 
     def adding_phone(self, phone):
-        self.phones.append(Phone(phone).value)
+        self.phones.append(phone)
 
     def remove_phone(self, phone):
-        self.phones.remove(Phone(phone).value)
+        self.phones.remove(phone)
 
     def edit_phone(self, old_phone, new_phone):
         self.remove_phone(old_phone)
@@ -40,7 +40,7 @@ class AdressBook(UserDict):
 
     def edit_record(self, name, new_phone):
         #record.edit_phone(old_phone, new_phone)
-        self.data[name] = new_phone
+        self.data[name] = [new_phone]
 
     def remove_record(self, record):
         self.data.pop(record.name.value)
@@ -53,7 +53,7 @@ class AdressBook(UserDict):
         return self.data
 
 
-CONTACTS: dict = {}
+#CONTACTS: dict = {}
 address_book = AdressBook()
 
 def input_error(func):
@@ -77,11 +77,11 @@ def greetings_fun():
 
 
 @input_error
-def adding_fun(name, *args):
+def adding_fun(name, phone):
     # CONTACTS[name] = phone              #Було так
-    record = Record(name, *args)        #Має стати так
+    record = Record(name, phone)        #Має стати так
     address_book.add_record(record)
-    return f'Contact {name} and phone(s) {args} was successfully added'
+    return f'Contact {name} and phone(s) {phone} was successfully added'
 
 
 @input_error
