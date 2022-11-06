@@ -18,7 +18,7 @@ class Record:
 
     def __init__(self, name_in, phone: str = None):
         self.name = Name(name_in)
-        self.phones = [phone if phone else []]
+        self.phones = [Phone(phone).value if phone else []]
 
     def adding_phone(self, phone):
         self.phones.append(phone)
