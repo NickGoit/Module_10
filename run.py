@@ -18,13 +18,16 @@ class Record:
 
     def __init__(self, name_in, phone: str = None):
         self.name = Name(name_in)
-        self.phones = [Phone(phone).value if phone else []]
+        self.phones = [Phone(phone) if phone else []]
+
+    def __repr__(self):
+        return f'{[self.phones[0].value]}'
 
     def adding_phone(self, phone):
-        self.phones.append(phone)
+        self.phones.append(Phone(phone))
 
     def remove_phone(self, phone):
-        self.phones.remove(phone)
+        self.phones.remove(Phone(phone))
 
     def edit_phone(self, old_phone, new_phone):
         self.remove_phone(old_phone)
@@ -36,7 +39,7 @@ class Record:
 
 class AdressBook(UserDict):
     def add_record(self, record):
-        self.data[record.name.value] = record.phones
+        self.data[record.name.value] = record
 
     def edit_record(self, name, new_phone):
         #record.edit_phone(old_phone, new_phone)
