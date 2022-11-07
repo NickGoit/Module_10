@@ -11,7 +11,12 @@ class Name(Field):
 
 
 class Phone(Field):
-    pass
+
+    def __repr__(self):
+        return f'{self.value}'
+
+    def __eq__(self, o):
+        return self.value == o.value
 
 
 class Record:
@@ -21,7 +26,7 @@ class Record:
         self.phones = [Phone(phone) if phone else []]
 
     def __repr__(self):
-        return f'{[self.phones[0].value]}'
+        return f'{self.phones}'
 
     def adding_phone(self, phone):
         self.phones.append(Phone(phone))
@@ -41,9 +46,9 @@ class AdressBook(UserDict):
     def add_record(self, record):
         self.data[record.name.value] = record
 
-    def edit_record(self, name, new_phone):
-        #record.edit_phone(old_phone, new_phone)
-        self.data[name] = [new_phone]
+    def edit_record(self, name, old_phone, new_phone):
+        local_record = self.data[name]
+        local_record.edit_phone(old_phone, new_phone)
 
     def remove_record(self, record):
         self.data.pop(record.name.value)
@@ -88,9 +93,9 @@ def adding_fun(name, phone):
 
 
 @input_error
-def change_fun(name, new_phone):
+def change_fun(name, old_phone, new_phone):
     #CONTACTS[name] = new_phone
-    address_book.edit_record(name, new_phone)
+    address_book.edit_record(name,old_phone,new_phone)
     return f'Contact {name} has changed phone number on {new_phone}'
 
 
@@ -161,3 +166,6 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
+
